@@ -76,6 +76,32 @@ class Starships(db.Model):
     hyperdrive_rating       = db.Column(db.Integer(), nullable=False)
     MGLT                    = db.Column(db.Integer(), nullable=False)
 
+
+    def __repr__(self):
+        return '<Usuario %r>' % self.username
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name":self.name,
+            "model":self.,
+            "starship_class":self.,
+            "manufacturer":self.,
+            "Fech_subscrip":self.,
+            "cost_in_credits":self.,
+            "manufacturer":self.,
+            "length":self.,
+            "crew":self.,
+            "passengers":self.,
+            "max_atmosphering_speed":self.,
+            "cargo_capacity":self.,
+            "consumables":self.,
+            "films":self.,
+            "pilots":self.,
+            "hyperdrive_rating":self.,
+            "MGLT":self.
+        }
+
 class Usuario(db.Model):
 
     id            = db.Column(db.Integer, primary_key=True)
@@ -85,6 +111,28 @@ class Usuario(db.Model):
     password      = db.Column(db.String(120), nullable=False)
     Fech_subscrip = db.Column(db.String(120), nullable=False)
     Activo        = db.Column(db.String(120), nullable=False)
+
+
+    def __repr__(self):
+        return '<Usuario %r>' % self.username
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name":self,
+            "last_name":self,
+            "email":self,
+            "password":self,
+            "Fech_subscrip":self,
+            "Activo":self
+
+
+
+
+            # do not serialize the password, its a security breach
+        }
+
+
 
 class Favoritos(db.Model):
    
@@ -106,5 +154,6 @@ class Favoritos(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            
             # do not serialize the password, its a security breach
         }

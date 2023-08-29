@@ -36,14 +36,11 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-""" empoints """
+"""---------------------------------------------------empoints ------------------------------------------------------------ """
 
 
 
-
-
-
-""" empoints """
+"""---------------------------------------------------empoints ------------------------------------------------------------ """
 
 @app.route('/user', methods=['GET'])
 def handle_hello():
