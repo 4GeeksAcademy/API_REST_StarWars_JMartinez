@@ -36,10 +36,11 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-"""-----------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
+"""-----------------------------------------------------------------------------------------empoints - JMartinez-------------------------------------------------------------------- """
 
+"""--------------------------------------------------------------------------------_<GIT ALL>_-------------------------------------------------------------------------------------"""
 
-"""-----------------------------------------------_<Personajes>_-------------------------------------"""
+"""-----------------------------------------------_<Personajes>_------------------------------------------"""
 
 @app.route('/personajes', methods=['GET'])
 def get_personajes():
@@ -65,7 +66,7 @@ def get_personajes():
 
 """-----------------------------------------------_ </Personajes> _--------------------------------------"""
 
-"""-----------------------------------------------_<Planetas>_-------------------------------------"""
+"""-----------------------------------------------_<Planetas>_-------------------------------------------"""
 
 @app.route('/planetas', methods=['GET'])
 def get_planets():
@@ -91,7 +92,7 @@ def get_planets():
 
 """-----------------------------------------------_ </Planets> _--------------------------------------"""
 
-"""-----------------------------------------------_<Vehiculos>_-------------------------------------"""
+"""-----------------------------------------------_<Vehiculos>_---------------------------------------"""
 
 @app.route('/vehiculos', methods=['GET'])
 def get_vehiculos():
@@ -117,7 +118,7 @@ def get_vehiculos():
 
 """-----------------------------------------------_ </Vehiculos> _--------------------------------------"""
 
-"""-----------------------------------------------_<Starships>_-------------------------------------"""
+"""-----------------------------------------------_<Starships>_-----------------------------------------"""
 
 @app.route('/starships', methods=['GET'])
 def get_starships():
@@ -143,7 +144,7 @@ def get_starships():
 
 """-----------------------------------------------_ </Starships> _--------------------------------------"""
 
-"""-----------------------------------------------_<Usuario>_-------------------------------------"""
+"""-----------------------------------------------_<Usuario>_-------------------------------------------"""
 
 @app.route('/usuario', methods=['GET'])
 def get_usuario():
@@ -169,7 +170,7 @@ def get_usuario():
 
 """-----------------------------------------------_ </Usuario> _--------------------------------------"""
 
-"""-----------------------------------------------_<Usuario>_-------------------------------------"""
+"""-----------------------------------------------_<Usuario>_-----------------------------------------"""
 
 @app.route('/favoritos', methods=['GET'])
 def get_favoritos():
@@ -198,7 +199,7 @@ def get_favoritos():
 
 
 # Original mgs /user
-@app.route('/user', methods=['GET'])
+@app.route('/user/', methods=['GET'])
 def handle_hello():
 
     response_body = {
@@ -206,7 +207,70 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
-"""---------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
+
+"""-----------------------------------------------------------------------------------_</GIT ALL>_-------------------------------------------------------------"""
+
+
+"""-----------------------------------------------------------------------------------_<GIT Espesifico>_-------------------------------------------------------------"""
+
+"""-----------------------------------------------_<One_personaje>_------------------------------------------"""
+
+@app.route('/personajes/<int:personaje_id>', methods=['GET'])
+def get_one_personaje(personaje_id):
+    
+    print(personaje_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    personajes_querys = Personajes.query.filter_by(id = personaje_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if personajes_querys is None:
+          return jsonify({"msg": "No hay personajes"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your personajes ",
+        "results": personajes_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+
+
+"""-----------------------------------------------_</One_personaje>_------------------------------------------"""
+
+
+"""-----------------------------------------------_<One_Planeta>_------------------------------------------"""
+
+@app.route('/planetas/<int:planet_id>', methods=['GET'])
+def get_one_planetas(planet_id):
+    
+    print(planet_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    planetas_querys = Planetas.query.filter_by(id = planet_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if planetas_querys is None:
+          return jsonify({"msg": "No hay planetas"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your planets ",
+        "results": planetas_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+"""-----------------------------------------------_</One_Planeta>_------------------------------------------"""
+
+
+
+"""-----------------------------------------------------------------------------------_</GIT Espesifico>_-------------------------------------------------------------"""
+
+"""----------------------------------------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
 
 
 
