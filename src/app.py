@@ -170,7 +170,7 @@ def get_usuario():
 
 """-----------------------------------------------_ </Usuario> _--------------------------------------"""
 
-"""-----------------------------------------------_<Usuario>_-----------------------------------------"""
+"""-----------------------------------------------_<Favoritos>_-----------------------------------------"""
 
 @app.route('/favoritos', methods=['GET'])
 def get_favoritos():
@@ -194,7 +194,7 @@ def get_favoritos():
 
     return jsonify(response_body), 200
 
-"""-----------------------------------------------_ </Usuario> _--------------------------------------"""
+"""-----------------------------------------------_ </Favoritos> _--------------------------------------"""
 
 
 
@@ -267,6 +267,106 @@ def get_one_planetas(planet_id):
 """-----------------------------------------------_</One_Planeta>_------------------------------------------"""
 
 
+"""-----------------------------------------------_<One_Vehiculo>_------------------------------------------"""
+
+@app.route('/vehiculos/<int:vehiculos_id>', methods=['GET'])
+def get_one_vehiculos(vehiculos_id):
+    
+    print(vehiculos_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    vehiculos_querys = Vehiculos.query.filter_by(id = vehiculos_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if vehiculos_querys is None:
+          return jsonify({"msg": "No hay vehiculo"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your vehicle ",
+        "results": vehiculos_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+"""-----------------------------------------------_</One_Vehiculo>_------------------------------------------"""
+
+
+"""-----------------------------------------------_<One_Starships>_------------------------------------------"""
+
+@app.route('/starships/<int:starships_id>', methods=['GET'])
+def get_one_starships(starships_id):
+    
+    print(starships_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    starships_querys = Starships.query.filter_by(id = starships_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if starships_querys is None:
+          return jsonify({"msg": "No hay starships"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your starships ",
+        "results": starships_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+"""-----------------------------------------------_</One_Starships>_------------------------------------------"""
+
+"""-----------------------------------------------_<One_Usuario>_------------------------------------------"""
+
+@app.route('/usuario/<int:usuario_id>', methods=['GET'])
+def get_one_usuario(usuario_id):
+    
+    print(usuario_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    usuario_querys = Usuario.query.filter_by(id = usuario_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if usuario_querys is None:
+          return jsonify({"msg": "No hay usuario"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your user ",
+        "results": usuario_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+"""-----------------------------------------------_</One_Usuario>_------------------------------------------"""
+
+"""-----------------------------------------------_<One_Favoritos>_------------------------------------------"""
+
+@app.route('/favoritos/<int:favoritos_id>', methods=['GET'])
+def get_one_favoritos(favoritos_id):
+    
+    print(favoritos_id)
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    favoritos_querys = Usuario.query.filter_by(id = favoritos_id).first()
+    
+    # si el resultado es vacio respondemos que no hay planetas
+
+    if favoritos_querys is None:
+          return jsonify({"msg": "No hay favoritos"}), 404
+
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your favorite ",
+        "results": favoritos_querys.serialize()
+    }
+
+    return jsonify(response_body), 200
+"""-----------------------------------------------_</One_Favoritos>_------------------------------------------"""
 
 """-----------------------------------------------------------------------------------_</GIT Espesifico>_-------------------------------------------------------------"""
 
