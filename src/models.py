@@ -1,16 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship, declarative_base
+
 
 
 db = SQLAlchemy()
 
 class User(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    id          = db.Column(db.Integer, primary_key=True)
+    email       = db.Column(db.String(120), unique=True, nullable=False)
+    password    = db.Column(db.String(80), unique=False, nullable=False)
+    is_active   = db.Column(db.Boolean(), unique=False, nullable=False)
 
 
 class Personajes(db.Model):
@@ -25,6 +24,21 @@ class Personajes(db.Model):
     height      = db.Column(db.String(120),  nullable=False)
     gender	    = db.Column(db.String(120),  nullable=False)
 
+    def __repr__(self):
+        return '<Personajes %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id"            :self.id,
+            "name"          :self.name,
+            "mass"          :self.mass,
+            "hair_color"    :self.hair_color,
+            "skin_color"    :self.skin_color,
+            "eye_color"     :self.eye_color,
+            "birth_year"    :self.birth_year,
+            "height"        :self.height,
+            "gender"        :self.gender 
+        }
 
 class Planetas(db.Model): 
 
@@ -39,7 +53,23 @@ class Planetas(db.Model):
     terrain         = db.Column(db.String(120), nullable=False)
     surface_water   = db.Column(db.String(120), nullable=False)
 
+    def __repr__(self):
+        return '<Planetas %r>' % self.id
 
+    def serialize(self):
+        return {
+            "id"                :self.id,
+            "name"              :self.name,
+            "diameter"          :self.diameter,
+            "rotation_period"   :self.rotation_period,
+            "orbital_period"    :self.orbital_period,
+            "gravity"           :self.gravity,
+            "population"        :self.population,
+            "climate"           :self.climate,
+            "terrain"           :self.terrain,
+            "surface_water"     :self.surface_water           
+        }
+    
 class Vehiculos(db.Model):
   
     id                      = db.Column(db.Integer, primary_key=True)
@@ -55,6 +85,29 @@ class Vehiculos(db.Model):
     consumables             = db.Column(db.String(120), nullable=False)
     films                   = db.Column(db.Integer(), nullable=False)
     pilots                  = db.Column(db.Integer(), nullable=False)
+
+
+    def __repr__(self):
+        return '<Vehiculos %r>' % self.id
+
+    def serialize(self):
+        return {
+            "id"                    :self.id,
+            "name"                  :self.name,
+            "model"                 :self.model,
+            "vehicle_class"         :self.vehicle_class,
+            "manufacturer"          :self.manufacturer,
+            "cost_in_credits"       :self.cost_in_credits,
+            "length"                :self.length,
+            "crew"                  :self.crew,
+            "max_atmosphering_speed":self.max_atmosphering_speed,
+            "cargo_capacity"        :self.cargo_capacity,
+            "consumables"           :self.consumables,
+            "films"                 :self.films,
+            "pilots"                :self.pilots,
+          
+          
+        }
 
 
 class Starships(db.Model):
@@ -78,28 +131,27 @@ class Starships(db.Model):
 
 
     def __repr__(self):
-        return '<Usuario %r>' % self.username
+        return '<Starships %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
             "name":self.name,
-            "model":self.,
-            "starship_class":self.,
-            "manufacturer":self.,
-            "Fech_subscrip":self.,
-            "cost_in_credits":self.,
-            "manufacturer":self.,
-            "length":self.,
-            "crew":self.,
-            "passengers":self.,
-            "max_atmosphering_speed":self.,
-            "cargo_capacity":self.,
-            "consumables":self.,
-            "films":self.,
-            "pilots":self.,
-            "hyperdrive_rating":self.,
-            "MGLT":self.
+            "model":self.model,
+            "starship_class":self.starship_class,
+            "manufacturer":self.manufacturer,
+            "cost_in_credits":self.cost_in_credits,
+            "manufacturer":self.manufacturer,
+            "length":self.length,
+            "crew":self.crew,
+            "passengers":self.passengers,
+            "max_atmosphering_speed":self.max_atmosphering_speed,
+            "cargo_capacity":self.cargo_capacity,
+            "consumables":self.consumables,
+            "films":self.films,
+            "pilots":self.pilots,
+            "hyperdrive_rating":self.hyperdrive_rating,
+            "MGLT":self.MGLT
         }
 
 class Usuario(db.Model):
@@ -114,25 +166,20 @@ class Usuario(db.Model):
 
 
     def __repr__(self):
-        return '<Usuario %r>' % self.username
+        return '<Usuario %r>' % self.id
 
     def serialize(self):
         return {
+
             "id": self.id,
-            "name":self,
-            "last_name":self,
-            "email":self,
-            "password":self,
-            "Fech_subscrip":self,
-            "Activo":self
-
-
-
-
+            "name":self.name,
+            "last_name":self.last_name,
+            "email":self.email,
+            "password":self.password,
+            "Fech_subscrip":self.Fech_subscrip,
+            "Activo":self.Activo
             # do not serialize the password, its a security breach
         }
-
-
 
 class Favoritos(db.Model):
    
@@ -149,11 +196,16 @@ class Favoritos(db.Model):
     star          = db.relationship(Starships)
 
     def __repr__(self):
-        return '<Favoritos %r>' % self.username
+        return '<Favoritos %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
-            
+            "personaje_id":self.personaje_id,
+            "vehiculo_id ":self.vehiculo_id,
+            "planeta_id  ":self.planeta_id,
+            "usuario_id  ":self.usuario_id,
+            "starships_id":self.starships_id
+          
             # do not serialize the password, its a security breach
-        }
+    }   
