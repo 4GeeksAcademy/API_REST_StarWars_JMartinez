@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, json
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -196,6 +196,31 @@ def get_favoritos():
 
 """-----------------------------------------------_ </Favoritos> _--------------------------------------"""
 
+"""-----------------------------------------------_<Usuatio/Favorito>_-----------------------------------------"""
+
+""" @app.route('/favoritos', methods=['GET'])
+def get_favoritos():
+
+    #hacemos una consulta a la tabla planetas para que traiga todos los registros
+    favoritos_querys = Favoritos.query.all()
+
+    #mapeamos para convertir el array [<Planetas 1>] => un array de objetos
+    results = list (map(lambda item: item.serialize(),favoritos_querys))
+
+    # control de error para array vacio
+    if results == []:
+        return jsonify({"msg": "No hay favorites"}), 404
+    
+    #regresamos una respuesta con los resultasos de la consulta 
+    response_body = {
+
+        "msg": "Hello, These are your favorites",
+        "results": results
+    }
+
+    return jsonify(response_body), 200 """
+
+"""-----------------------------------------------_ </Usuatio/Favorito> _--------------------------------------"""
 
 
 # Original mgs /user
@@ -350,7 +375,7 @@ def get_one_favoritos(favoritos_id):
     
     print(favoritos_id)
     #hacemos una consulta a la tabla planetas para que traiga todos los registros
-    favoritos_querys = Usuario.query.filter_by(id = favoritos_id).first()
+    favoritos_querys = Favoritos.query.filter_by(id = favoritos_id).first()
     
     # si el resultado es vacio respondemos que no hay planetas
 
@@ -370,6 +395,33 @@ def get_one_favoritos(favoritos_id):
 
 """-----------------------------------------------------------------------------------_</GIT Espesifico>_-------------------------------------------------------------"""
 
+
+"""-----------------------------------------------------------------------------------_<POST>_-------------------------------------------------------------"""
+
+
+"""-----------------------------------------------_</POST_Favoritos>_------------------------------------------"""
+
+@app.route('/personajes', methods=['POST'])
+
+def create_personaje():
+    request_body = json.loads(request.data)
+
+    existing_personaje = Personajes.query.filter_by(**request_body).first()
+
+    if existing_personaje:
+        return jsonify({"message": "El personaje ya existe"}), 400
+
+    new_personaje = Personajes(**request_body)
+    db.session.add(new_personaje)
+    db.session.commit()
+    
+    return jsonify(new_personaje.serialize()), 200
+
+"""-----------------------------------------------------------------------------------_</POST>_-------------------------------------------------------------"""
+
+
+
+
 """----------------------------------------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
 
 
@@ -380,3 +432,4 @@ def get_one_favoritos(favoritos_id):
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=PORT, debug=False)
+
