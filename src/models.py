@@ -206,6 +206,7 @@ class Favoritos(db.Model):
             "planeta_id  ":self.planeta_id,
             "usuario_id  ":self.usuario_id,
             "starships_id":self.starships_id
+            
           
             # do not serialize the password, its a security breach
     }   
