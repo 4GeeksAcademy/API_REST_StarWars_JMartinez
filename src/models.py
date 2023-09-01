@@ -14,45 +14,48 @@ class User(db.Model):
 
 class Personajes(db.Model):
 
-    id          = db.Column(db.Integer, primary_key=True)
-    name        = db.Column(db.String(120),  nullable=False)
-    mass        = db.Column(db.String(120),  nullable=False)
-    hair_color	= db.Column(db.String(120),  nullable=False)
-    skin_color	= db.Column(db.String(120),  nullable=False)
-    eye_color	= db.Column(db.String(120),  nullable=False)
-    birth_year	= db.Column(db.String(120),  nullable=False)
-    height      = db.Column(db.String(120),  nullable=False)
-    gender	    = db.Column(db.String(120),  nullable=False)
+    id                  = db.Column(db.Integer,      primary_key=True)
+    name                = db.Column(db.String(120),  nullable=False)
+    mass                = db.Column(db.String(120),  nullable=False)
+    hair_color	        = db.Column(db.String(120),  nullable=False)
+    skin_color	        = db.Column(db.String(120),  nullable=False)
+    eye_color	        = db.Column(db.String(120),  nullable=False)
+    birth_year	        = db.Column(db.String(120),  nullable=False)
+    height              = db.Column(db.String(120),  nullable=False)
+    gender	            = db.Column(db.String(120),  nullable=False)
+    # usuario_Personajes  = db.relationship('Favoritos', backref= 'personajes', lazy=True)
 
     def __repr__(self):
         return '<Personajes %r>' % self.id
 
     def serialize(self):
         return {
-            "id"            :self.id,
-            "name"          :self.name,
-            "mass"          :self.mass,
-            "hair_color"    :self.hair_color,
-            "skin_color"    :self.skin_color,
-            "eye_color"     :self.eye_color,
-            "birth_year"    :self.birth_year,
-            "height"        :self.height,
-            "gender"        :self.gender 
+            "id"                    :self.id,
+            "name"                  :self.name,
+            "mass"                  :self.mass,
+            "hair_color"            :self.hair_color,
+            "skin_color"            :self.skin_color,
+            "eye_color"             :self.eye_color,
+            "birth_year"            :self.birth_year,
+            "height"                :self.height,
+            "gender"                :self.gender,
+            # "usuario_Personajes"    :list(map(lambda item: item.serialize(),self.usuario_Personajes))          
         }
 
 class Planetas(db.Model): 
 
-    id              = db.Column(db.Integer, primary_key=True)
-    name            = db.Column(db.String(120), nullable=False)
-    diameter        = db.Column(db.String(120), nullable=False)
-    rotation_period	= db.Column(db.String(120), nullable=False)
-    orbital_period	= db.Column(db.String(120), nullable=False)
-    gravity	        = db.Column(db.String(120), nullable=False)
-    population	    = db.Column(db.String(120), nullable=False)
-    climate	        = db.Column(db.String(120), nullable=False)
-    terrain         = db.Column(db.String(120), nullable=False)
-    surface_water   = db.Column(db.String(120), nullable=False)
-
+    id                  = db.Column(db.Integer, primary_key=True)
+    name                = db.Column(db.String(120), nullable=False)
+    diameter            = db.Column(db.String(120), nullable=False)
+    rotation_period	    = db.Column(db.String(120), nullable=False)
+    orbital_period	    = db.Column(db.String(120), nullable=False)
+    gravity	            = db.Column(db.String(120), nullable=False)
+    population	        = db.Column(db.String(120), nullable=False)
+    climate	            = db.Column(db.String(120), nullable=False)
+    terrain             = db.Column(db.String(120), nullable=False)
+    surface_water       = db.Column(db.String(120), nullable=False)
+    # usuario_Planetas    = db.relationship('Favoritos', backref= 'planetas', lazy=True)
+   
     def __repr__(self):
         return '<Planetas %r>' % self.id
 
@@ -67,7 +70,8 @@ class Planetas(db.Model):
             "population"        :self.population,
             "climate"           :self.climate,
             "terrain"           :self.terrain,
-            "surface_water"     :self.surface_water           
+            "surface_water"     :self.surface_water ,
+            # "usuario_Planetas" :list(map(lambda item: item.serialize(),self.usuario_Planetas))          
         }
     
 class Vehiculos(db.Model):
@@ -85,7 +89,7 @@ class Vehiculos(db.Model):
     consumables             = db.Column(db.String(120), nullable=False)
     films                   = db.Column(db.Integer(), nullable=False)
     pilots                  = db.Column(db.Integer(), nullable=False)
-
+    # usuario_Vehiculos       = db.relationship('Favoritos', backref= 'vehiculos', lazy=True)
 
     def __repr__(self):
         return '<Vehiculos %r>' % self.id
@@ -105,7 +109,7 @@ class Vehiculos(db.Model):
             "consumables"           :self.consumables,
             "films"                 :self.films,
             "pilots"                :self.pilots,
-          
+            # "usuario_Vehiculos"     :list(map(lambda item: item.serialize(),self.usuario_Vehiculos))
           
         }
 
@@ -128,6 +132,7 @@ class Starships(db.Model):
     pilots                  = db.Column(db.Integer(), nullable=False)
     hyperdrive_rating       = db.Column(db.Integer(), nullable=False)
     MGLT                    = db.Column(db.Integer(), nullable=False)
+    # usuario_Starships       = db.relationship('Favoritos', backref= 'starships', lazy=True)
 
 
     def __repr__(self):
@@ -151,18 +156,20 @@ class Starships(db.Model):
             "films":self.films,
             "pilots":self.pilots,
             "hyperdrive_rating":self.hyperdrive_rating,
-            "MGLT":self.MGLT
+            "MGLT":self.MGLT,
+            # "usuario_Starships": list(map(lambda item: item.serialize(),self.usuario_Starships))
         }
 
 class Usuario(db.Model):
 
-    id            = db.Column(db.Integer, primary_key=True)
-    name          = db.Column(db.String(120), nullable=False)
-    last_name     = db.Column(db.String(120), nullable=False)
-    email         = db.Column(db.String(120), nullable=False)
-    password      = db.Column(db.String(120), nullable=False)
-    Fech_subscrip = db.Column(db.String(120), nullable=False)
-    Activo        = db.Column(db.String(120), nullable=False)
+    id                   = db.Column(db.Integer, primary_key=True)
+    name                 = db.Column(db.String(120), nullable=False)
+    last_name            = db.Column(db.String(120), nullable=False)
+    email                = db.Column(db.String(120), nullable=False)
+    password             = db.Column(db.String(120), nullable=False)
+    Fech_subscrip        = db.Column(db.String(120), nullable=False)
+    Activo               = db.Column(db.String(120), nullable=False)
+    usuario_favoritos    = db.relationship('Favoritos', backref= 'usuario', lazy=True)
 
 
     def __repr__(self):
@@ -177,23 +184,25 @@ class Usuario(db.Model):
             "email":self.email,
             "password":self.password,
             "Fech_subscrip":self.Fech_subscrip,
-            "Activo":self.Activo
+            "Activo":self.Activo,
+            "usuario_favoritos": list(map(lambda item: item.serialize(),self.usuario_favoritos))
             # do not serialize the password, its a security breach
         }
 
 class Favoritos(db.Model):
    
-    id            = db.Column(db.Integer, primary_key=True)
-    personaje_id  = db.Column(db.Integer, db.ForeignKey('personajes.id'))
-    vehiculo_id   = db.Column(db.Integer, db.ForeignKey('vehiculos.id'))
-    planeta_id    = db.Column(db.Integer, db.ForeignKey('planetas.id'))
-    usuario_id    = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-    starships_id  = db.Column(db.Integer, db.ForeignKey('starships.id'))
-    usuario       = db.relationship(Usuario)
-    person        = db.relationship(Personajes)
-    Vehi          = db.relationship(Vehiculos)
-    plane         = db.relationship(Planetas)
-    star          = db.relationship(Starships)
+    id              = db.Column(db.Integer, primary_key=True)
+    personaje_id    = db.Column(db.Integer, db.ForeignKey('personajes.id'),nullable=True)
+    vehiculo_id     = db.Column(db.Integer, db.ForeignKey('vehiculos.id'),nullable=True)
+    planeta_id      = db.Column(db.Integer, db.ForeignKey('planetas.id'),nullable=True)
+    usuario_id      = db.Column(db.Integer, db.ForeignKey('usuario.id'),nullable=True)
+    starships_id    = db.Column(db.Integer, db.ForeignKey('starships.id'),nullable=True)
+    vehiculos       = db.relationship(Vehiculos)
+    starships       = db.relationship(Starships)
+    planetas        = db.relationship(Planetas)
+    personajes      = db.relationship(Personajes)
+
+    
 
     def __repr__(self):
         return '<Favoritos %r>' % self.id
@@ -201,11 +210,11 @@ class Favoritos(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "personaje_id":self.personaje_id,
-            "vehiculo_id ":self.vehiculo_id,
-            "planeta_id  ":self.planeta_id,
-            "usuario_id  ":self.usuario_id,
-            "starships_id":self.starships_id
+            "personaje_id": None if self.personajes is None else self.personajes.serialize(),
+            "vehiculo_id" : None if self.vehiculos  is None else self.vehiculos.serialize(),
+            "planeta_id"  : None if self.planetas   is None else self.planetas.serialize(),
+            "usuario_id"  : self.usuario_id,
+            "starships_id": None if self.starships  is None else self.starships.serialize()
             
           
             # do not serialize the password, its a security breach

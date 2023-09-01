@@ -202,21 +202,19 @@ def get_favoritos():
 def get_favoritos_usuario(usuario_id):
 
     #hacemos una consulta a la tabla planetas para que traiga todos los registros
-    favoritos_User = Favoritos.query.filter_by(usuario_id = usuario_id).first()
+    favoritos_User = Favoritos.query.filter_by(usuario_id=usuario_id).all()
 
-    cuatri = favoritos_User.serialize()
-  
-    print(cuatri)
-    
+    allfavoritos = list(map(lambda item: item.serialize(),favoritos_User))
+
+    print(allfavoritos)
     
     #regresamos una respuesta con los resultasos de la consulta
-    response_body = {
+    #response_body = {
+   #    "msg": "Hello, These are your favorites",
+   #     "results": results
+  #  }
 
-        "msg": "Hello, These are your favorites",
-        "results": favoritos_User.serialize()
-    }
-
-    return jsonify(response_body), 200 
+    return jsonify({'result' : allfavoritos }),200 
 
 """-----------------------------------------------_ </Usuatio/Favorito> _--------------------------------------"""
 
@@ -524,6 +522,7 @@ def create_favoritos():
     db.session.commit()
     
     return jsonify(new_favoritos.serialize()), 200
+
 
 
 """-----------------------------------------------_</POST_Favoritos>_----------------------------------------------"""
