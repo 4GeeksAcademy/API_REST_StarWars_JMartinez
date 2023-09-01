@@ -398,20 +398,32 @@ def get_one_favoritos(favoritos_id):
 """-----------------------------------------------_<POST_Personajes>_------------------------------------------"""
 
 @app.route('/personajes', methods=['POST'])
-
-def create_personaje():
+def crea_personaje():
     request_body = json.loads(request.data)
-
-    existing_personaje = Personajes.query.filter_by(**request_body).first()
-
-    if existing_personaje:
-        return jsonify({"message": "El personaje ya existe"}), 400
-
-    new_personaje = Personajes(**request_body)
-    db.session.add(new_personaje)
-    db.session.commit()
-    
-    return jsonify(new_personaje.serialize()), 200
+   
+    personajes_query = Personajes.query.filter_by(name=request_body["name"]).first()
+    if personajes_query is None:
+        
+        new_person = Personajes( 
+        name                        =request_body["name"],    
+        mass                        =request_body["mass"],
+        hair_color                  =request_body["hair_color"],
+        skin_color                  =request_body["skin_color"],
+        eye_color                   =request_body["eye_color"],
+        birth_year                  =request_body["birth_year"],
+        height                      =request_body["height"],
+        gender                      =request_body["gender"]
+        )
+        db.session.add(new_person)
+        db.session.commit()
+        #regresamos una respuesta con los resultasos de la consulta 
+        response_body = {
+            "msg": "Personaje creado",
+            "results": new_person.serialize() 
+        }
+        return (response_body), 200
+    else:
+        return jsonify({"msg": "personaje ya existe"}), 400
 
 
 """-----------------------------------------------_</POST_Personajes>_-------------------------------------------"""
@@ -505,23 +517,39 @@ def create_usuario():
 
 """-----------------------------------------------_<POST_Favoritos>_----------------------------------------------"""
 
-@app.route('/favoritos', methods=['POST'])
-
-def create_favoritos():
+@app.route('/usuario/<int:usuariova_id>/favoritos/<int:favorito_id>', methods=['POST'])
+def crea_favoritos(usuariova_id, favorito_id):
     request_body = json.loads(request.data)
-   
+    valorstring = str(favorito_id)
+    favoritos_query = Favoritos.query.filter_by(id=request_body["id"]).first()
 
-    existing_favoritos = Favoritos.query.filter_by(**request_body).first()
-    print("ESTE" + Favoritos) 
+    print(favoritos_query) 
+    if favoritos_query is None:
+        print(favoritos_query)
+        new_favorito = Planetas( 
+        name                            =request_body["personaje_id"],                     
+        diameter                        =request_body["vehiculo_id"],                     
+        rotation_period	                =request_body["planeta_id"],                       
+        orbital_period	                =request_body["usuario_id"],                
+        gravity	                        =request_body["starships_id"]  
+        population	          
+        climate	        
+        terrain         
+        surface_water   
 
-    if existing_favoritos:
-        return jsonify({"message": "El favorito ya existe"}), 400
+        )
+        db.session.add(new_favorito)
+        db.session.commit()
+        #regresamos una respuesta con los resultasos de la consulta 
+        response_body = {
+            "msg": "Favorito creado",
+            "results": new_favorito.serialize() 
+        }
+        return (response_body), 20 
+        
 
-    new_favoritos = Favoritos(**request_body)
-    db.session.add(new_favoritos)
-    db.session.commit()
-    
-    return jsonify(new_favoritos.serialize()), 200
+        return jsonify({"msg": "favorito ya existe"}), 400
+
 
 
 
