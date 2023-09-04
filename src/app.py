@@ -9,6 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Planetas, Personajes, Usuario, Favoritos, Starships, Vehiculos
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 #from models import Person
 
 app = Flask(__name__)
@@ -24,6 +25,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+jwt = JWTManager(app)
 setup_admin(app)
 
 # Handle/serialize errors like a JSON object
@@ -564,7 +568,45 @@ def delete_fav_personaje(usuario_id, personajes_id):
 
 """-----------------------------------------------------------------------------------_</DELETE>_-------------------------------------------------------------"""
 
+"""-----------------------------------------------------------------------------------_<Login>_-------------------------------------------------------------"""
 
+@app.route("/login", methods=["POST"])
+def login():
+
+    email = request.json.get("email", None)
+    password= request.json.get("password", None) 
+    user_query=Usuario.query.filter_by(email=email).first()
+
+    print(user_query)
+
+    if user_query is None: 
+        return jsonify({"msg": "Email dosn't exist"}), 484
+
+    if email != user_query.email or password != user_query.password:  
+        return jsonify({"msg": "Bad email or password"}), 401
+
+
+    access_token = create_access_token(identity=email) 
+    return jsonify(access_token=access_token)
+
+
+# this only runs if $ python src/app.py is executed
+
+
+"""-----------------------------------------------------------------------------------_</Login>_-------------------------------------------------------------"""
+
+"""-----------------------------------------------------------------------------------_<Ruta_Protegida>_-------------------------------------------------------------"""
+# Protect a route with jwt_required, which will kick out requests
+# without a valid JWT present.
+@app.route("/demo", methods=["POST"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+
+"""-----------------------------------------------------------------------------------_</Ruta_Protegida>_-------------------------------------------------------------"""
 
 """----------------------------------------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
 
