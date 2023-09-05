@@ -502,7 +502,7 @@ def create_starships():
 
 """-----------------------------------------------_<POST_Usuario>_----------------------------------------------"""
 
-""" @app.route('/login#pills-register', methods=['POST'])
+@app.route('/login1', methods=['POST'])
 
 def crea_usuario():
     request_body = json.loads(request.data)
@@ -511,11 +511,11 @@ def crea_usuario():
     if usuario_query is None:
         
         new_usuario = Usuario( 
-        name                   =request_body["name"],
-        last_name              =request_body["last_name"],
-        email                  =request_body["email"],
-        password               =request_body["password"], 
-        Fech_subscrip          =request_body[datetime.now()],
+        name                   = request_body["name"],
+        last_name              = request_body["last_name"],
+        email                  = request_body["email"],
+        password               = request_body["password"], 
+        Fech_subscrip          = request_body["Fech_subscrip"],
        
         )
         db.session.add(new_usuario)
@@ -525,10 +525,10 @@ def crea_usuario():
             "msg": "Usuario creado",
             "results": new_usuario.serialize() 
         }
-        return (response_body), 200
+        return jsonify(response_body), 200
     else:
-        return jsonify({"msg": "usuario ya existe"}), 400
-          """
+        return jsonify({"msg": "usuario ya existe"}), 400 
+         
           
 
 """-----------------------------------------------_</POST_Usuario>_----------------------------------------------"""

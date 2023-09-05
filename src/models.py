@@ -168,7 +168,7 @@ class Usuario(db.Model):
     email                = db.Column(db.String(120), nullable=False)
     password             = db.Column(db.String(120), nullable=False)
     Fech_subscrip        = db.Column(db.String(120), nullable=False)
-    Activo               = db.Column(db.String(120), nullable=False)
+    Activo               = db.Column(db.String(120), nullable=True)
     usuario_favoritos    = db.relationship('Favoritos', backref= 'usuario', lazy=True)
 
 
