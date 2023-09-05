@@ -502,7 +502,7 @@ def create_starships():
 
 """-----------------------------------------------_<POST_Usuario>_----------------------------------------------"""
 
-@app.route('/login1', methods=['POST'])
+@app.route('/login', methods=['POST'])
 
 def crea_usuario():
     request_body = json.loads(request.data)
@@ -515,7 +515,7 @@ def crea_usuario():
         last_name              = request_body["last_name"],
         email                  = request_body["email"],
         password               = request_body["password"], 
-        Fech_subscrip          = request_body["Fech_subscrip"],
+        Fech_subscrip          = datetime.now(),
        
         )
         db.session.add(new_usuario)
