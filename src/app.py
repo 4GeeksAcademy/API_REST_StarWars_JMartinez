@@ -10,6 +10,9 @@ from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Planetas, Personajes, Usuario, Favoritos, Starships, Vehiculos
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+from datetime import date
+from datetime import datetime
+
 #from models import Person
 
 app = Flask(__name__)
@@ -499,22 +502,34 @@ def create_starships():
 
 """-----------------------------------------------_<POST_Usuario>_----------------------------------------------"""
 
-@app.route('/usuario', methods=['POST'])
+""" @app.route('/login#pills-register', methods=['POST'])
 
-def create_usuario():
+def crea_usuario():
     request_body = json.loads(request.data)
-
-    existing_usuario = Usuario.query.filter_by(**request_body).first()
-
-    if existing_usuario:
-        return jsonify({"message": "El usuario ya existe"}), 400
-
-    new_usuario = Usuario(**request_body)
-    db.session.add(new_usuario)
-    db.session.commit()
-    
-    return jsonify(new_usuario.serialize()), 200
-
+   
+    usuario_query = Usuario.query.filter_by(email=request_body["email"]).first()
+    if usuario_query is None:
+        
+        new_usuario = Usuario( 
+        name                   =request_body["name"],
+        last_name              =request_body["last_name"],
+        email                  =request_body["email"],
+        password               =request_body["password"], 
+        Fech_subscrip          =request_body[datetime.now()],
+       
+        )
+        db.session.add(new_usuario)
+        db.session.commit()
+        #regresamos una respuesta con los resultasos de la consulta 
+        response_body = {
+            "msg": "Usuario creado",
+            "results": new_usuario.serialize() 
+        }
+        return (response_body), 200
+    else:
+        return jsonify({"msg": "usuario ya existe"}), 400
+          """
+          
 
 """-----------------------------------------------_</POST_Usuario>_----------------------------------------------"""
 
@@ -596,9 +611,11 @@ def login():
 """-----------------------------------------------------------------------------------_</Login>_-------------------------------------------------------------"""
 
 """-----------------------------------------------------------------------------------_<Ruta_Protegida>_-------------------------------------------------------------"""
+
+"""-----------------------------------------------------------------------------------_<Demo>_-------------------------------------------------------------"""
 # Protect a route with jwt_required, which will kick out requests
 # without a valid JWT present.
-@app.route("/demo", methods=["POST"])
+@app.route("/demo", methods=["GET"])
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
@@ -606,7 +623,25 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 
+"""-----------------------------------------------------------------------------------_</Demo>_-------------------------------------------------------------"""
+
+"""-----------------------------------------------------------------------------------_<Valid-token>_-------------------------------------------------------------"""
+# Protect a route with jwt_required, which will kick out requests
+# without a valid JWT present.
+@app.route("/valid-token", methods=["GET"])
+@jwt_required()
+def Valid_token():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify({"is_logged" : True}), 200
+
+
+"""-----------------------------------------------------------------------------------_</Valid-token>_-------------------------------------------------------------"""
+
 """-----------------------------------------------------------------------------------_</Ruta_Protegida>_-------------------------------------------------------------"""
+
+
+
 
 """----------------------------------------------------------------------------------------------------empoints - JMartinez------------------------------------------------------------ """
 
